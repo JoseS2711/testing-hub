@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Query} from '@nestjs/common';
 import { Example1Service } from './example1.service';
 import { CreateTestDTO } from './DTO/CreateTest.dto';
 
@@ -13,6 +13,12 @@ export class Example1Controller {
         return this.Example1Service.getExample();
     }
 
+    @Get('/status')
+    @HttpCode(500)
+    getStatus(){
+        return "Error 404"
+    }
+
     @Get('/:id')
     getallExamples(@Param('id') id:string){
         console.log(id)
@@ -23,7 +29,6 @@ export class Example1Controller {
 
 
     @Post()
-    @UsePipes(new ValidationPipe())
     createExample(@Body() value:CreateTestDTO){
         return this.Example1Service.CreateExample(value);
     }
